@@ -14,8 +14,9 @@
       background: url('https://images.unsplash.com/photo-1541746972996-4e0b0f43e02a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center;
       background-size: cover;
       color: #fff;
-      padding: 100px 0; /* Decreased the padding */
+      padding: 100px 0;
       text-align: center;
+      min-height: 300px; /* Adjust as needed */
     }
     .footer {
       background-color: #343a40;
@@ -23,11 +24,6 @@
       padding: 20px 0;
       text-align: center;
     }
-    /* Decreased image height */
-    .page-header {
-      min-height: 300px; /* Adjust as needed */
-    }
-    /* Added border and padding to the form */
     #predictionForm {
       border: 2px solid #007bff; /* Blue border */
       border-radius: 10px; /* Rounded corners */
@@ -39,23 +35,7 @@
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-      <a class="navbar-brand" href="{% url "home" %}">Job Prediction ML</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="{% url "home" %}">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Contact</a>
-          </li>
-        </ul>
-      </div>
+      <a class="navbar-brand" href="#">Job Prediction ML</a>
     </div>
   </nav>
 
@@ -71,99 +51,82 @@
   <div class="container mt-5">
     <div class="row justify-content-center">
       <div class="col-md-8">
-        <form id="predictionForm">
+        <form id="predictionForm" method="POST">
+          {% csrf_token %}
           <div class="form-row">
             <div class="form-group col-md-6">
               <label for="jobTitle">Job Title</label>
-              <select class="form-control" id="jobTitle" required>
+              <select class="form-control" id="jobTitle" name="jobTitle" required>
                 <option value="">Select job title</option>
                 <option value="Software Developer">Software Developer</option>
                 <option value="Data Scientist">Data Scientist</option>
                 <option value="Project Manager">Project Manager</option>
-                <!-- Add more job titles here -->
               </select>
             </div>
             <div class="form-group col-md-6">
               <label for="yearsExperience">Years of Experience</label>
-              <select class="form-control" id="yearsExperience" required>
+              <select class="form-control" id="yearsExperience" name="yearsExperience" required>
                 <option value="">Select years of experience</option>
                 <option value="0-1">0-1 years</option>
                 <option value="1-3">1-3 years</option>
                 <option value="3-5">3-5 years</option>
-                <!-- Add more experience ranges here -->
               </select>
             </div>
           </div>
           <div class="form-row">
             <div class="form-group col-md-6">
               <label for="educationLevel">Education Level</label>
-              <select class="form-control" id="educationLevel" required>
+              <select class="form-control" id="educationLevel" name="educationLevel" required>
                 <option value="">Select education level</option>
                 <option value="High School">High School</option>
                 <option value="Bachelor's Degree">Bachelor's Degree</option>
                 <option value="Master's Degree">Master's Degree</option>
                 <option value="PhD">PhD</option>
-                <!-- Add more education levels here -->
               </select>
             </div>
             <div class="form-group col-md-6">
               <label for="industry">Industry</label>
-              <select class="form-control" id="industry" required>
+              <select class="form-control" id="industry" name="industry" required>
                 <option value="">Select industry</option>
                 <option value="Technology">Technology</option>
                 <option value="Healthcare">Healthcare</option>
                 <option value="Finance">Finance</option>
-                <!-- Add more industries here -->
-              </select>
-            </div>
-            <div class="form-group col-md-6">
-              <label for="industry">Industry</label>
-              <select class="form-control" id="industry" required>
-                <option value="">Select industry</option>
-                <option value="Technology">Technology</option>
-                <option value="Healthcare">Healthcare</option>
-                <option value="Finance">Finance</option>
-                <!-- Add more industries here -->
-              </select>
-            </div>
-            <div class="form-group col-md-6">
-              <label for="industry">Industry</label>
-              <select class="form-control" id="industry" required>
-                <option value="">Select industry</option>
-                <option value="Technology">Technology</option>
-                <option value="Healthcare">Healthcare</option>
-                <option value="Finance">Finance</option>
-                <!-- Add more industries here -->
-              </select>
-            </div>
-            <div class="form-group col-md-6">
-              <label for="industry">Industry</label>
-              <select class="form-control" id="industry" required>
-                <option value="">Select industry</option>
-                <option value="Technology">Technology</option>
-                <option value="Healthcare">Healthcare</option>
-                <option value="Finance">Finance</option>
-                <!-- Add more industries here -->
-              </select>
-            </div>
-            <div class="form-group col-md-6">
-              <label for="industry">Industry</label>
-              <select class="form-control" id="industry" required>
-                <option value="">Select industry</option>
-                <option value="Technology">Technology</option>
-                <option value="Healthcare">Healthcare</option>
-                <option value="Finance">Finance</option>
-                <!-- Add more industries here -->
               </select>
             </div>
           </div>
-          <!-- Add more dropdown fields as needed -->
           <button type="submit" class="btn btn-primary btn-block">Predict Salary</button>
         </form>
-        <div class="mt-4" id="predictionResult" style="display: none;">
-          <h4>Prediction Result:</h4>
-          <p id="predictedSalary"></p>
-        </div>
+        
+        <!-- Modal -->
+      <!-- Modal -->
+<div class="modal fade" id="predictionResult" tabindex="-1" role="dialog" aria-labelledby="predictionResultLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="predictionResultLabel">Prediction Result</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-center">
+        
+        <h3 class="font-weight-bold text-primary" id="predictedSalary"></h3>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End of Modal -->
+
+
+
+
+
+
+        <!-- End of Modal -->
+        
       </div>
     </div>
   </div>
@@ -176,7 +139,7 @@
   </footer>
 
   <!-- Bootstrap JS and jQuery -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
@@ -185,15 +148,13 @@
     $(document).ready(function(){
       $('#predictionForm').submit(function(event){
         event.preventDefault();
-        // Make AJAX request to ML model for prediction
-        // Replace this with your actual prediction endpoint
         $.ajax({
-          url: 'your_prediction_endpoint_here',
+          url: '{% url "predict" %}',
           method: 'POST',
           data: $(this).serialize(),
           success: function(response){
-            $('#predictedSalary').text(response.predicted_salary);
-            $('#predictionResult').show();
+            $('#predictedSalary').text('Predicted Salary: ' + response.predicted_salary + ' taka');
+            $('#predictionResult').modal('show');
           },
           error: function(){
             alert('Error occurred while predicting salary.');
@@ -202,5 +163,6 @@
       });
     });
   </script>
+    
 </body>
 </html>
